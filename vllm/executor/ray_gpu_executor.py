@@ -67,9 +67,6 @@ class RayGPUExecutor(ExecutorBase):
         if self.parallel_config.tensor_parallel_size == 1:
             # For single GPU case, we use a ray worker with constrained memory.
             num_gpus = self.cache_config.gpu_memory_utilization
-        else:
-            # Otherwise, the ray workers are allocated with a full GPU.
-            num_gpus = 1
 
         # The driver dummy worker does not actually use any resources.
         # It holds the resource for the driver worker.
@@ -86,6 +83,9 @@ class RayGPUExecutor(ExecutorBase):
         for bundle_id, bundle in enumerate(placement_group.bundle_specs):
             if not bundle.get("GPU", 0):
                 continue
+            else: # always pick the fraction of GPUs assigned to the bundle
+                num_gpus = bundle.get("GPU", 0)
+            
             scheduling_strategy = PlacementGroupSchedulingStrategy(
                 placement_group=placement_group,
                 placement_group_capture_child_tasks=True,
