@@ -195,7 +195,7 @@ if(VLLM_GPU_LANG STREQUAL "CUDA")
   SET(CUTLASS_ENABLE_HEADERS_ONLY ON CACHE BOOL "Enable only the header library")
   FetchContent_Declare(
         cutlass
-        GIT_REPOSITORY https://github.com/nvidia/cutlass.git
+        GIT_REPOSITORY /u01/data/analytics/personal/Paul/cutlass/
         # CUTLASS 3.5.1
         GIT_TAG 06b21349bcf6ddf6a1686a47a137ad1446579db9 
         GIT_PROGRESS TRUE
